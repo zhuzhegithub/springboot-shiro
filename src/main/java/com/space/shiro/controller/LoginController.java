@@ -22,15 +22,10 @@ public class LoginController {
         return "login";
     }
 
-    @RequestMapping("/a")
-    public String a() {
-        return "a";
-    }
-
     @RequestMapping("/loginUser")
     public String loginUser(String username,String password,HttpSession session) {
         //授权认证
-        UsernamePasswordToken usernamePasswordToken=new UsernamePasswordToken(username,password);
+        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(username,password);
         Subject subject = SecurityUtils.getSubject();
         try {
             //完成登录
@@ -43,7 +38,6 @@ public class LoginController {
         } catch(Exception e) {
             return "login";//返回登录页面
         }
-
     }
 
     @RequestMapping("/logOut")
