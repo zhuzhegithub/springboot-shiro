@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/mvc">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<body>
+
+
+<button id="Add">Add</button>
+<button id="Update">Update</button>
+<button id="Delete">Delete</button>
+<button id="Query">Query</button>
+
+
+<script th:src="@{/js/jquery-1.10.2.js}"></script>
+<script type="application/javascript">
+
+    var ctx = "[[${#servletContext.contextPath}]]";
+
+    $(function () {
+
+        $("#Add").click(function () {
+            $.post(ctx + "/user/add",{},function (data) {
+                alert(data);
+            });
+            return false;
+        });
+
+        $("#Update").click(function () {
+            $.post(ctx + "/user/update",{},function (data) {
+                alert(data);
+            });
+            return false;
+        });
+
+        $("#Delete").click(function () {
+            $.get(ctx + "/user/delete/123",function (data) {
+                alert(data);
+            });
+            return false;
+        });
+
+        $("#Query").click(function () {
+            $.get(ctx + "/user/list",function (data) {
+                alert(data);
+            });
+            return false;
+        });
+    })
+</script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 package com.space.shiro.shiro;
 
-import com.space.shiro.bean.Module;
+import com.space.shiro.bean.Permissions;
 import com.space.shiro.bean.Role;
 import com.space.shiro.bean.User;
 import com.space.shiro.mapper.UserMapper;
@@ -45,9 +45,9 @@ public class AuthRealm extends AuthorizingRealm{
         Set<Role> roles = user.getRoles();
         if(roles.size()>0) {
             for(Role role : roles) {
-                Set<Module> modules = role.getModules();
+                Set<Permissions> modules = role.getPermissions();
                 if(modules.size()>0) {
-                    for(Module module : modules) {
+                    for(Permissions module : modules) {
                         permissions.add(module.getName());
                     }
                 }

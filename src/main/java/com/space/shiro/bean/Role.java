@@ -20,5 +20,5 @@ public class Role implements Serializable{
     private String name;
 
     private Set<User> users = new HashSet<>();
-    private Set<Module> Modules = new HashSet<>();
+    private Set<Permissions> permissions = new HashSet<>();
 }

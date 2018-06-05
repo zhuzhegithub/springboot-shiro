@@ -1,4 +1,4 @@
-package com.space.shiro.config.shiro;
+package com.space.shiro.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -19,9 +19,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
+
         registry.addViewController("/login").setViewName("login");
         registry.addViewController("/index").setViewName("index");
 
-        registry.addViewController("/testPage").setViewName("testPage");
+        registry.addViewController("/user").setViewName("user/user");
     }
 }

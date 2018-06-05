@@ -2,11 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.space.shiro.mapper.UserMapper" >
     <resultMap id="BaseResultMap" type="com.space.shiro.bean.User" >
-        <!--<constructor >
-            <idArg column="uid" jdbcType="INTEGER" javaType="java.lang.Integer" />
-            <arg column="username" jdbcType="VARCHAR" javaType="java.lang.String" />
-            <arg column="password" jdbcType="VARCHAR" javaType="java.lang.String" />
-        </constructor>-->
         <id column="uid" property="id" jdbcType="INTEGER" />
         <result column="username" property="username" jdbcType="VARCHAR" />
         <result column="password" property="password" jdbcType="VARCHAR" />
@@ -19,9 +14,9 @@
         <collection property="roles" ofType="com.space.shiro.bean.Role">
             <id property="id" column="rid"/>
             <result property="name" column="rname"/>
-            <collection property="modules" ofType="com.space.shiro.bean.Module">
-                <id property="id" column="mid"/>
-                <result property="name" column="mname"/>
+            <collection property="permissions" ofType="com.space.shiro.bean.Permissions">
+                <id property="id" column="pid"/>
+                <result property="name" column="pname"/>
             </collection>
         </collection>
     </resultMap>
@@ -38,10 +33,10 @@
     </select>
 
     <select id="queryUserName" parameterType="string" resultMap="userMap">
-        SELECT u.*,r.*,m.* FROM user u inner join user_role ur on ur.uid=u.uid
+        SELECT u.*,r.*,p.* FROM user u inner join user_role ur on ur.uid=u.uid
         inner join role r on r.rid=ur.rid
-        inner join module_role mr on mr.rid=r.rid
-        inner join module m on mr.mid=m.mid
+        inner join permissions_role pr on pr.rid=r.rid
+        inner join permissions p on pr.pid=p.pid
         WHERE username=#{username};
     </select>
 

@@ -19,11 +19,6 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class LoginController {
 
-    @RequestMapping("/login")
-    public String login() {
-        return "login";
-    }
-
     @RequestMapping("/loginUser")
     public String loginUser(User user,HttpSession session) {
         //授权认证
@@ -33,11 +28,10 @@ public class LoginController {
             //完成登录
             subject.login(usernamePasswordToken);
             //获得用户对象
-
             user = (User) subject.getPrincipal();
             //存入session
             session.setAttribute("user", user);
-            return "index";
+            return "redirect:index";
         } catch(Exception e) {
             log.error("login {} ,异常 :" , user , e);
             return "login";//返回登录页面
