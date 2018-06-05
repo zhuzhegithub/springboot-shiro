@@ -1,0 +1,55 @@
+
+
+<!--验证当前用户是否拥有指定权限。  -->
+<a shiro:hasPermission="user:add" href="#" >add用户</a><!-- 拥有权限 -->
+
+
+<!--与hasPermission标签逻辑相反，当前用户没有制定权限时，验证通过。-->
+<p shiro:lacksPermission="user:del"> 没有权限 </p>
+
+
+<!--验证当前用户是否拥有以下所有权限。-->
+<p shiro:hasAllPermissions="user:view, user:add"> 权限与判断 </p>
+
+
+<!--验证当前用户是否拥有以下任意一个权限。-->
+<p shiro:hasAnyPermissions="user:view, user:del"> 权限或判断 </p>
+
+
+<!--验证当前用户是否属于该角色。-->
+<a shiro:hasRole="admin" href="#">拥有该角色</a>
+
+
+<!--与hasRole标签逻辑相反，当用户不属于该角色时验证通过。-->
+<p shiro:lacksRole="developer"> 没有该角色 </p>
+
+
+<!--验证当前用户是否属于以下所有角色。-->
+<p shiro:hasAllRoles="developer, admin"> 角色与判断 </p>
+
+
+<!--验证当前用户是否属于以下任意一个角色。-->
+<p shiro:hasAnyRoles="admin, vip, developer"> 角色或判断 </p>
+
+
+<!--验证当前用户是否为“访客”，即未认证（包含未记住）的用户。-->
+<p shiro:guest="">访客 未认证</a></p>
+
+
+<!--认证通过或已记住的用户-->
+<p shiro:user=""> 认证通过或已记住的用户 </p>
+    
+
+<!--已认证通过的用户。不包含已记住的用户，这是与user标签的区别所在。-->
+<p shiro:authenticated=""> <span shiro:principal=""></span> </p>
+    
+
+<!--输出当前用户信息，通常为登录帐号信息-->
+<p> <shiro:principal/> </p>
+
+
+<!--未认证通过用户，与authenticated标签相对应。-->
+<!--与guest标签的区别是，该标签包含已记住用户。-->
+<p shiro:notAuthenticated=""> 未认证通过用户 </p>
+
+

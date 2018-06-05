@@ -1,5 +1,6 @@
 package com.space.shiro.config.shiro;
 
+import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import com.space.shiro.shiro.AuthRealm;
 import com.space.shiro.shiro.CredentialsMatcher;
 import lombok.extern.slf4j.Slf4j;
@@ -116,5 +117,14 @@ public class ShiroConfig {
         CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
         cookieRememberMeManager.setCookie(rememberMeCookie());
         return cookieRememberMeManager;
+    }
+
+    /**
+     * shiro方言  支持shiro标签
+     * @return
+     */
+    @Bean
+    public ShiroDialect shiroDialect() {
+        return new ShiroDialect();
     }
 }

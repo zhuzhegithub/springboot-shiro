@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:shiro="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<body>
+<h3>shiroTag</h3>
+
+<!--验证当前用户是否拥有指定权限。  -->
+<a shiro:hasPermission="user:add" href="#" >add用户</a><!-- 拥有权限 -->
+<a shiro:hasPermission="user:update" href="#" >update用户</a><!-- 拥有权限 -->
+<a shiro:hasPermission="user:delete" href="#" >delete用户</a><!-- 拥有权限 -->
+<a shiro:hasPermission="user:query" href="#" >query用户</a><!-- 拥有权限 -->
+
+<!-- 关于shiro常用标签，可以看 https://blog.csdn.net/zhuzhezhuzhe1/article/details/80584489 -->
+<br/><br/>
+<h3>
+    <a href="https://blog.csdn.net/zhuzhezhuzhe1/article/details/80584489">shiro常用标签</a>
+</h3>
+</body>
+</html>
