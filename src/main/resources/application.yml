@@ -4,7 +4,7 @@ spring:
       enabled: false
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/test
+    url: jdbc:mysql://localhost:3306/springboot_shiro
     hikari:
       username: root
       password: 123

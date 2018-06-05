@@ -1,10 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8"/>
     <title>Title</title>
 </head>
 <body>
-login
+    <form th:action="@{/loginUser}" method="post">
+        <input type="text" name="username"><br>
+        <input type="password" name="password"><br>
+        <input type="submit" value="提交">
+    </form>
 </body>
 </html>
