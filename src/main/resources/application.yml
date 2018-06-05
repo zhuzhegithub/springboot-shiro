@@ -1,0 +1,12 @@
+spring:
+  devtools:
+    restart:
+      enabled: false
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/test
+    hikari:
+      username: root
+      password: 123
+mybatis:
+  mapper-locations: classpath:mapper/**/*.xml
