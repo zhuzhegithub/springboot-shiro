@@ -3,7 +3,6 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/`springboot_shiro` /*!40100 DEFAULT CHAR
 
 USE `springboot_shiro`;
 
-
 DROP TABLE IF EXISTS `permissions`;
 CREATE TABLE `permissions` (
   `pid` int(11) NOT NULL AUTO_INCREMENT,
