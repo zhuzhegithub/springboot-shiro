@@ -47,7 +47,6 @@ CREATE TABLE `user` (
 insert  into `user`(`uid`,`username`,`password`) values (1,'aaa','123');
 
 
-
 DROP TABLE IF EXISTS `user_role`;
 CREATE TABLE `user_role` (
   `uid` int(11) DEFAULT NULL,
