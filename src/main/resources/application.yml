@@ -8,5 +8,11 @@ spring:
     hikari:
       username: root
       password: 123
+  redis:
+    database: 1
+    host: localhost
+    port: 6379
+    timeout: 6000  # 连接超时时长（毫秒）
+    password:
 mybatis:
   mapper-locations: classpath:mapper/**/*.xml
