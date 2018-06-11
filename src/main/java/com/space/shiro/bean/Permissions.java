@@ -14,6 +14,8 @@ import java.util.Set;
 @Data
 public class Permissions implements Serializable {
 
+    private static final long serialVersionUID = 2869115090144706877L;
+
     private Integer id;
 
     private String name;

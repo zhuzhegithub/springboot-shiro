@@ -14,6 +14,8 @@ import java.util.Set;
 @Data
 public class User implements Serializable {
 
+    private static final long serialVersionUID = -8894803927963266646L;
+
     private Integer id;
 
     private String username;

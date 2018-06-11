@@ -15,6 +15,8 @@ import java.util.Set;
 @Data
 public class Role implements Serializable{
 
+    private static final long serialVersionUID = -7018588078056943942L;
+
     private Integer id;
 
     private String name;
