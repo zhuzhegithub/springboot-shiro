@@ -1,15 +1,17 @@
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/springboot_shiro
+    url: jdbc:mysql://116.85.32.90:3306/springboot_shiro
     hikari:
       username: root
-      password: 123
+      password: 123456
   redis:
     database: 1
-    host: localhost
+    host: 116.85.32.90
     port: 6379
     timeout: 6000
-    password:
+    password: password
 mybatis:
   mapper-locations: classpath:mapper/**/*.xml
+server:
+  port: 8081
