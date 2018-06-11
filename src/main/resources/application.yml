@@ -1,7 +1,4 @@
 spring:
-  devtools:
-    restart:
-      enabled: false
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/springboot_shiro
@@ -12,7 +9,7 @@ spring:
     database: 1
     host: localhost
     port: 6379
-    timeout: 6000  # 连接超时时长（毫秒）
+    timeout: 6000
     password:
 mybatis:
   mapper-locations: classpath:mapper/**/*.xml

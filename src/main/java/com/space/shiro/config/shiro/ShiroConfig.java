@@ -11,8 +11,13 @@ import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
+import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
+import org.crazycake.shiro.RedisCacheManager;
+import org.crazycake.shiro.RedisManager;
+import org.crazycake.shiro.RedisSessionDAO;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -70,13 +75,68 @@ public class ShiroConfig {
 
     //配置核心安全事务管理器
     @Bean(name = "securityManager")
-    public SecurityManager securityManager(AuthRealm authRealm) {
-        DefaultWebSecurityManager manager = new DefaultWebSecurityManager();
-        manager.setRealm(authRealm);
+    public SecurityManager securityManager(AuthRealm authRealm,RedisCacheManager redisCacheManager,DefaultWebSessionManager sessionManager) {
+        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+        securityManager.setRealm(authRealm);
+        // 自定义缓存实现 使用redis
+        securityManager.setCacheManager(redisCacheManager);
+        // 自定义session管理 使用redis
+        securityManager.setSessionManager(sessionManager);
+
         //注入记住我管理器
-//        manager.setRememberMeManager(rememberMeManager());
-        return manager;
+//        securityManager.setRememberMeManager(rememberMeManager());
+        return securityManager;
     }
+
+    /**
+     * 配置 RedisManager
+     * 使用的是shiro-redis开源插件
+     */
+    @Bean
+    public RedisManager redisManager(RedisProperties redisProperties) {
+        RedisManager redisManager = new RedisManager();
+        redisManager.setHost(redisProperties.getHost());
+        redisManager.setPort(redisProperties.getPort());
+        redisManager.setExpire(1800);// 配置缓存过期时间
+        redisManager.setTimeout(Integer.valueOf(String.valueOf(redisProperties.getTimeout().toMillis())));
+        // redisManager.setPassword(password);
+        return redisManager;
+    }
+
+    /**
+     * cacheManager 缓存 redis实现
+     * 使用的是shiro-redis开源插件
+     */
+    @Bean
+    public RedisCacheManager cacheManager(RedisManager redisManager) {
+        RedisCacheManager redisCacheManager = new RedisCacheManager();
+        redisCacheManager.setRedisManager(redisManager);
+        return redisCacheManager;
+    }
+
+    /**
+     * RedisSessionDAO shiro sessionDao层的实现 通过redis
+     * 使用的是shiro-redis开源插件
+     */
+    @Bean
+    public RedisSessionDAO redisSessionDAO(RedisManager redisManager) {
+        RedisSessionDAO redisSessionDAO = new RedisSessionDAO();
+        redisSessionDAO.setRedisManager(redisManager);
+        return redisSessionDAO;
+    }
+
+    /**
+     * Session Manager
+     * 使用的是shiro-redis开源插件
+     */
+    @Bean
+    public DefaultWebSessionManager sessionManager(RedisSessionDAO redisSessionDAO) {
+        DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+        sessionManager.setSessionDAO(redisSessionDAO);
+        return sessionManager;
+    }
+
+
 
     //配置自定义的权限登录器
     @Bean
