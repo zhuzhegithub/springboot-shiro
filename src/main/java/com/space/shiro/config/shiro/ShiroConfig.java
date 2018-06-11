@@ -11,7 +11,6 @@ import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
-import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.crazycake.shiro.RedisCacheManager;
 import org.crazycake.shiro.RedisManager;
 import org.crazycake.shiro.RedisSessionDAO;
@@ -73,18 +72,17 @@ public class ShiroConfig {
         return advisor;
     }
 
-    //配置核心安全事务管理器
+    /*配置核心安全事务管理器*/
     @Bean(name = "securityManager")
-    public SecurityManager securityManager(AuthRealm authRealm,RedisCacheManager redisCacheManager,DefaultWebSessionManager sessionManager) {
+    public SecurityManager securityManager(AuthRealm authRealm, RedisCacheManager redisCacheManager, ShiroSessionManager sessionManager, CookieRememberMeManager rememberMeManager) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(authRealm);
         // 自定义缓存实现 使用redis
         securityManager.setCacheManager(redisCacheManager);
         // 自定义session管理 使用redis
         securityManager.setSessionManager(sessionManager);
-
         //注入记住我管理器
-//        securityManager.setRememberMeManager(rememberMeManager());
+        securityManager.setRememberMeManager(rememberMeManager);
         return securityManager;
     }
 
@@ -99,7 +97,7 @@ public class ShiroConfig {
         redisManager.setPort(redisProperties.getPort());
         redisManager.setExpire(1800);// 配置缓存过期时间
         redisManager.setTimeout(Integer.valueOf(String.valueOf(redisProperties.getTimeout().toMillis())));
-        // redisManager.setPassword(password);
+        redisManager.setPassword(redisProperties.getPassword());
         return redisManager;
     }
 
@@ -130,19 +128,17 @@ public class ShiroConfig {
      * 使用的是shiro-redis开源插件
      */
     @Bean
-    public DefaultWebSessionManager sessionManager(RedisSessionDAO redisSessionDAO) {
-        DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+    public ShiroSessionManager sessionManager(RedisSessionDAO redisSessionDAO) {
+        ShiroSessionManager sessionManager = new ShiroSessionManager();
         sessionManager.setSessionDAO(redisSessionDAO);
         return sessionManager;
     }
 
-
-
-    //配置自定义的权限登录器
+    /*配置自定义的权限登录器*/
     @Bean
     public AuthRealm authRealm() {
         AuthRealm authRealm = new AuthRealm();
-        //配置自定义的密码比较器
+        /*配置自定义的密码比较器*/
         authRealm.setCredentialsMatcher(new CredentialsMatcher());
         return authRealm;
     }
@@ -160,23 +156,17 @@ public class ShiroConfig {
         return creator;
     }
 
-    /*remember me*/
-    @Bean
-    public SimpleCookie rememberMeCookie() {
-        /*这个参数是cookie的名称，对应前端的checkbox的name = rememberMe  */
-        SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
-        /* 记住我cookie生效时间1天 ,单位秒;  */
-        simpleCookie.setMaxAge(60 * 60 * 24);
-        return simpleCookie;
-    }
-
     /**
-     * cookie管理对象;
+     * cookie管理对象
      */
     @Bean
     public CookieRememberMeManager rememberMeManager() {
+        /*这个参数是cookie的名称，对应前端的checkbox的name = rememberMe  */
+        SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
+        /* 记住我cookie生效时间7天 ,单位秒;  */
+        simpleCookie.setMaxAge(60 * 60 * 24 * 7);
         CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
-        cookieRememberMeManager.setCookie(rememberMeCookie());
+        cookieRememberMeManager.setCookie(simpleCookie);
         return cookieRememberMeManager;
     }
 
